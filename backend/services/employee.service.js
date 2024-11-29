@@ -1,7 +1,7 @@
 const Employee = require('../models/employee.model');
 const ResignInfo = require('../models/resign.model');
 const bcrypt = require('bcrypt');
-const jwttoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 class employeeLogics {
     async registerUser(payload) {
@@ -22,11 +22,11 @@ class employeeLogics {
     }
 
     createToken(payload) {
-        return jwttoken.sign(payload, process.env.SECREATE_KEY);
+        return jwt.sign(payload, process.env.SECREATE_KEY);
     }
 
     compareToken(token) {
-        return jwttoken.verify(token, process.env.SECREATE_KEY);
+        return jwt.verify(token, process.env.SECREATE_KEY);
     }
 
     addResignOfEmployee(payload) {
