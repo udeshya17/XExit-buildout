@@ -1,22 +1,26 @@
-const cors = require("cors");
-const express  = require("express");
-const mongoose = require("mongoose");
+const cors = require('cors');
+const express = require('express');
+const employeeRouter = require('./routes/employee.route.js');
+const adminRouter = require('./routes/admin.route.js');
+const connectMongoDB = require('./config/config.js');
+require('dotenv').config();
 
-
+// Initialize Express app and define the port
 const app = express();
-const PORT = 8080;
-const DB_URI = "mongodb://127.0.0.1:27017/xexit";
+const PORT = process.env.PORT || 8080; 
 
-mongoose.connect(DB_URI)
-    .then(() => console.log("DB connected"))
-    .catch((error) => console.log("Error in connecting DB", error));
+// Connect to MongoDB
+connectMongoDB();
 
+// Middleware setup
 app.use(cors());
-
-
 app.use(express.json());
 
+// Routes
+app.use('/api', employeeRouter);
+app.use('/api/admin', adminRouter);
 
-app.listen(PORT, ()=>{
+// Start the server
+app.listen(PORT, () => {
     console.log(`Backend is listening on PORT ${PORT}`);
 });
